@@ -274,4 +274,19 @@ with right:
 speed = max(300, 1100 - st.session_state.level * 80)
 st.markdown(f"""<script>
 setTimeout(function(){{var b=window.parent.document.querySelectorAll('button');for(var i=0;i<b.length;i++){{if(b[i].innerText==='DOWN'){{b[i].click();break}}}}}},{speed});
+(function(){{
+  var d=window.parent.document;
+  if(!d._tetrisKeys){{
+    d._tetrisKeys=true;
+    d.addEventListener('keydown',function(e){{
+      var map={{'ArrowLeft':'LEFT','ArrowRight':'RIGHT','ArrowUp':'ROTATE','ArrowDown':'DOWN',' ':'DROP'}};
+      var t=map[e.key];
+      if(t){{
+        e.preventDefault();
+        var b=d.querySelectorAll('button');
+        for(var i=0;i<b.length;i++){{if(b[i].innerText===t){{b[i].click();break}}}}
+      }}
+    }});
+  }}
+}})();
 </script>""", unsafe_allow_html=True)
